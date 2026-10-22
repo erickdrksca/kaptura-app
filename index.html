@@ -2697,7 +2697,7 @@ if(!new URLSearchParams(location.search).get('c')){init();initEnhancements();}
 document.addEventListener('input',e=>{const el=e.target;if(!el||!el.dataset||!el.dataset.num)return;const v=el.value,c=el.dataset.num==='int'?v.replace(/[^0-9]/g,''):v.replace(/[^0-9.,]/g,'');if(c!==v)el.value=c},true);
 // La rueda del ratón no cambia cantidades: si el cursor está sobre un campo numérico activo, se suelta el campo y la página se desplaza normal
 document.addEventListener('wheel',e=>{const el=document.activeElement;if(el&&el.tagName==='INPUT'&&el.type==='number'&&(e.target===el||el.contains(e.target)))el.blur()},{passive:true});
-if(false&&'serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Modo sin conexión no disponible:',e)));navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.tipo==='nueva-version')avisoNuevaVersion()})}
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Modo sin conexión no disponible:',e)));navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.tipo==='nueva-version')avisoNuevaVersion()})}
 function avisoNuevaVersion(){
   if(!currentUser){location.reload();return}
   if(document.getElementById('nuevaVersionBar'))return;
