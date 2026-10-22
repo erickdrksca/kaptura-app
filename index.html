@@ -39,7 +39,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
 .tarBar{height:10px;background:#eceaf0;border-radius:99px;overflow:hidden;margin:8px 0 2px}.tarBar i{display:block;height:100%;background:#ea580c;border-radius:99px}
 body.soloConsulta .soloCaptura,body.soloConsulta #providerView>aside,body.soloConsulta #productGrid .stepper,body.soloConsulta .catbar .toggle{display:none!important}
 body.soloConsulta #providerView{grid-template-columns:1fr!important}
-.apGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.apCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.apCard h3{margin:0 0 10px;font-size:17px}.apForm{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.apForm label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600}.apTag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}.apOn{background:#dcfce7;color:#166534}.apOff{background:#fee2e2;color:#991b1b}</style>
+.apGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.apCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.apCard h3{margin:0 0 10px;font-size:17px}.apForm{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.apForm label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600}.apTag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}.apOn{background:#dcfce7;color:#166534}.apOff{background:#fee2e2;color:#991b1b}.kxMas{grid-column:1/-1;border:1px solid var(--line);border-radius:14px;padding:4px 14px;background:#fafcfd}.kxMas summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;gap:8px;list-style:none}.kxMas summary::-webkit-details-marker{display:none}.kxMas summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#eef3f6;font-weight:800}.kxMas[open] summary::before{content:"−"}.kxMasBody{display:grid;gap:12px;padding:4px 0 12px}.kxBar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);box-shadow:0 -8px 22px rgba(15,42,68,.10)}.kxBarIn{max-width:1320px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}.kxBarIn>div{display:flex;flex-direction:column}.kxBarIn span{font-size:12px;color:var(--muted)}.kxBarIn b{font-size:18px}.kxAh{color:#15803d}.kxTot{margin-left:auto;align-items:flex-end}.kxTot b{font-family:"Poppins",Arial,sans-serif;font-size:26px}.kxGo{height:54px;padding:0 26px;font-size:16px;border-radius:14px!important;background:#c2410c!important}.kxGo:disabled{opacity:.45}body.kxBarOn{padding-bottom:96px}body.kxBarOn #saveOrderBtn{display:none}.kxBg{position:fixed;inset:0;z-index:60;background:rgba(15,42,68,.55);display:grid;place-items:center;padding:16px}.kxDlg{width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 60px rgba(15,42,68,.3)}.kxDlg h3{margin:0;font-family:"Poppins",Arial,sans-serif;font-size:22px}.kxCli{background:#f4f7f9;border-radius:12px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:3px}.kxLines{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow:auto}.kxLines div{display:flex;gap:10px;font-size:14px}.kxLines span{flex:1}.kxSum{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:12px}.kxSum b{font-family:"Poppins",Arial,sans-serif;font-size:26px}.kxBtns{display:flex;gap:10px}.kxBtns .btn{flex:1;height:52px}.prow.inCart{outline:2px solid #f97316;outline-offset:-2px;border-radius:12px;background:#fff7ed}@media (max-width:700px){.kxBarIn{gap:14px}.kxTot{margin-left:0}.kxGo{width:100%}}</style>
 </head>
 <body>
 <div id="loginScreen" class="login"><div class="loginHero" role="img" aria-label="EXPO MAYORISTA 2026 · DEMO"></div><div class="loginSide"><div class="card"><div style="text-align:center;margin-bottom:20px"><h1>Portal de pedidos</h1><p class="muted">Ingresa con el usuario de tu stand</p></div><div id="loginNotice" class="notice err"></div><form id="loginForm"><div class="section"><label>Usuario</label><input id="loginUser" placeholder="Ej. VALLE / ADMIN / V01"></div><div class="section"><label>Contraseña</label><input id="loginPass" type="password" placeholder="Contraseña"></div><button class="btn accent" id="loginBtn" style="width:100%" type="submit">Entrar</button><p id="loginOfflineHint" class="muted hidden" style="margin-top:10px;text-align:center">📴 Sin conexión: puedes entrar si ya usaste este usuario en este dispositivo.</p></form></div></div></div>
@@ -1965,6 +1965,69 @@ async function apCatCargar(){
 function apPlantilla(){const tipo=$('apCatTipo').value,t=AP_CAT[tipo];
   const csv='﻿'+t.cols.join(',')+'\n'+t.ej.map(v=>/[",]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v).join(',')+'\n';
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`plantilla_${tipo}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+
+
+// ================= REDISEÑO DE LA CAPTURA =================
+function kxInitRedisenio(){
+  if(document.getElementById('kxBar'))return;
+  const fg=document.querySelector('#providerView .formgrid');
+  if(fg){
+    const det=document.createElement('details');det.id='kxMas';det.className='kxMas';
+    det.innerHTML='<summary>Más datos · celular, observaciones y comentarios para tu comprador</summary><div class="kxMasBody"></div>';
+    const body=det.querySelector('.kxMasBody');
+    [document.getElementById('waWrap'),document.getElementById('notes')&&document.getElementById('notes').parentElement,
+     document.getElementById('buyerNote')&&document.getElementById('buyerNote').parentElement].forEach(n=>{if(n){n.style.gridColumn='';body.appendChild(n)}});
+    fg.appendChild(det);
+  }
+  const bar=document.createElement('div');bar.id='kxBar';bar.className='kxBar hidden';
+  bar.innerHTML='<div class="kxBarIn"><div><span>Renglones</span><b id="kxN">0</b></div><div><span>Unidades</span><b id="kxU">0</b></div>'
+    +'<div><span>Ahorro del cliente</span><b id="kxA" class="kxAh">$0.00</b></div><div><span>Forma de pago</span><b id="kxP">—</b></div>'
+    +'<div class="kxTot"><span>Total del pedido</span><b id="kxT">$0.00</b></div>'
+    +'<button type="button" class="btn accent kxGo" id="kxGo" disabled>Revisar y guardar</button></div>';
+  document.body.appendChild(bar);
+  document.getElementById('kxGo').onclick=kxConfirmar;
+  if(typeof updateCartStats==='function'){const _u=updateCartStats;updateCartStats=function(){const r=_u.apply(this,arguments);kxSync();return r}}
+  if(typeof updateSaveState==='function'){const _s=updateSaveState;updateSaveState=function(){const r=_s.apply(this,arguments);kxSync();return r}}
+  if($('paymentMethod'))$('paymentMethod').addEventListener('change',kxSync);
+  setInterval(kxVisible,500);kxVisible();kxSync();
+}
+function kxVisible(){
+  const pv=document.getElementById('providerView');
+  const on=!!(currentUser&&pv&&!pv.classList.contains('hidden'));
+  document.getElementById('kxBar').classList.toggle('hidden',!on);
+  document.body.classList.toggle('kxBarOn',on);
+}
+function kxAhorro(){
+  try{return cart.reduce((a,i)=>{const q=Number(i.cantidad||0),pl=Number(i.precio_lista||i.precio_neto_catalogo||i.precio_neto||0),f=lineFinalPrice(i);return a+Math.max(pl-f,0)*q},0)}catch(_){return 0}
+}
+function kxSync(){
+  if(!document.getElementById('kxBar'))return;
+  const t=(id)=>{const e=document.getElementById(id);return e?e.textContent:''};
+  document.getElementById('kxN').textContent=t('statProducts')||'0';
+  document.getElementById('kxU').textContent=t('statUnits')||'0';
+  document.getElementById('kxT').textContent=t('statTotal')||'$0.00';
+  document.getElementById('kxA').textContent=money(kxAhorro());
+  const pm=$('paymentMethod');document.getElementById('kxP').textContent=pm&&pm.selectedIndex>=0?pm.options[pm.selectedIndex].text:'—';
+  const sb2=$('saveOrderBtn');document.getElementById('kxGo').disabled=!sb2||sb2.disabled;
+}
+function kxConfirmar(){
+  const sb2=$('saveOrderBtn');if(!sb2||sb2.disabled)return;
+  const vs=$('vendorSelect'),pm=$('paymentMethod');
+  const lines=cart.map(i=>`<div><b>${Number(i.cantidad||0)}×</b><span>${escapeHtml(i.descripcion||'')} <small class="muted">${escapeHtml(i.unidad||'')}</small></span><b>${money(Number(i.cantidad||0)*lineFinalPrice(i))}</b></div>`).join('');
+  const bg=document.createElement('div');bg.className='kxBg';bg.id='kxModal';
+  bg.innerHTML=`<div class="kxDlg" role="dialog" aria-modal="true" aria-labelledby="kxTit"><h3 id="kxTit">Confirma el pedido</h3>
+    <div class="kxCli"><b>${escapeHtml($('clientSearch').value||'')}</b><span class="muted">Vendedor: ${escapeHtml(vs&&vs.selectedIndex>=0?vs.options[vs.selectedIndex].text:'')} · ${escapeHtml(pm&&pm.selectedIndex>=0?pm.options[pm.selectedIndex].text:'')}</span></div>
+    <div class="kxLines">${lines}</div>
+    <div class="kxSum"><span>Total</span><b>${escapeHtml($('statTotal').textContent)}</b></div>
+    <div class="kxBtns"><button type="button" class="btn secondary" id="kxNo">Seguir agregando</button><button type="button" class="btn accent kxGo" id="kxSi">Guardar pedido</button></div></div>`;
+  document.body.appendChild(bg);
+  const cerrar=()=>bg.remove();
+  bg.addEventListener('click',e=>{if(e.target===bg)cerrar()});
+  document.getElementById('kxNo').onclick=cerrar;
+  document.getElementById('kxSi').onclick=()=>{cerrar();saveOrder()};
+  document.getElementById('kxSi').focus();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',kxInitRedisenio);else setTimeout(kxInitRedisenio,0);
 
 let creditRows=[];
 async function loadCreditView(){
