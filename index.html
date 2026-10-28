@@ -177,6 +177,25 @@ table td > .btn + .btn{margin-left:6px}
 .kpStCell{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:12px;color:#5A6B7D}
 
 table td,table th{font-variant-numeric:tabular-nums}
+</style><style id="kpTabletFix">
+/* Ajustes para tablet: nada se sale de la pantalla */
+html,body{max-width:100%;overflow-x:clip}
+header{width:100%}
+header h1{padding-right:.15em}
+.kpAdmin>*{min-width:0}
+.kpAdmin>.card:not(.kpSide){overflow-x:auto}
+#adminView .top{flex-wrap:wrap;gap:10px}
+#adminView .top .toolbar{flex-wrap:wrap}
+@media (max-width:1200px){
+ .kpAdmin{grid-template-columns:minmax(0,1fr)!important}
+ .kpSide{position:static!important;flex-direction:row!important;flex-wrap:wrap;gap:6px;padding:8px!important}
+ .kpSide .lbl,.kpSide hr{display:none!important}
+ .kpSide button{padding:8px 12px!important}
+}
+table select{min-width:150px}
+table input:not([type=checkbox]):not([type=radio]){min-width:120px}
+.kpUserBtn .nm{max-width:none;white-space:nowrap}
+@media (max-width:760px){.kpUserBtn .nm{display:none}.kpUserBtn{padding:6px}}
 </style></head>
 <body>
 <div id="loginScreen" class="login"><div class="loginHero" role="img" aria-label="EXPO MAYORISTA 2026 · DEMO"></div><div class="loginSide"><div class="card"><div style="text-align:center;margin-bottom:20px"><h1>Portal de pedidos</h1><p class="muted">Ingresa con el usuario de tu stand</p></div><div id="loginNotice" class="notice err"></div><form id="loginForm"><div class="section"><label>Usuario</label><input id="loginUser" placeholder="Ej. VALLE / ADMIN / V01"></div><div class="section"><label>Contraseña</label><input id="loginPass" type="password" placeholder="Contraseña"></div><button class="btn accent" id="loginBtn" style="width:100%" type="submit">Entrar</button><p id="loginOfflineHint" class="muted hidden" style="margin-top:10px;text-align:center">Sin conexión: puedes entrar si ya usaste este usuario en este dispositivo.</p></form></div></div></div>
@@ -2923,7 +2942,7 @@ function syncUser(){
   const t=st.textContent.trim();const nm=(t.split('·')[0]||'').trim();const rol=(t.match(/Rol:\s*(\w+)/)||[])[1]||'';
   const name=nm.split(' - ')[0]||nm;
   w.querySelector('.av').textContent=(name.replace(/[^A-Za-zÁÉÍÓÚÑ ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('')||'K').toUpperCase();
-  w.querySelector('.nm').textContent=name.length>18?name.slice(0,17)+'…':(name||'Mi cuenta');
+  w.querySelector('.nm').textContent=name||'Mi cuenta';
   w.querySelector('.wn').textContent=nm||'—';w.querySelector('.wr').textContent=rol?('Rol: '+rol):'';
 }
 function adminSidebar(){

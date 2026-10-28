@@ -1,7 +1,7 @@
 // Kaptura Sales · Service worker
 // Guarda la plataforma en el dispositivo para que abra aunque no haya internet.
 // Los datos (Supabase) NO pasan por aquí: la plataforma los guarda por su cuenta.
-const CACHE = 'kaptura-v2';
+const CACHE = 'kaptura-v3';
 const PRECACHE = ['./'];
 
 self.addEventListener('install', event => {
